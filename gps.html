@@ -1,0 +1,81 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+</head>
+<body>
+
+
+<div id="location">
+ <!-- 之后这里会被代替为你的地理位置 --> 
+Your location will go here.    
+</div>
+
+<script type="text/javascript">
+
+window.onload = getMyLocation; 
+/* 
+    window.onload表示等HTML加载完成并构建好DOM后执行某个函数
+*/
+function getMyLocation(){
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(displayLocation);
+}
+    else {
+        alert("Oops,no geolocation support")
+}
+
+
+
+function displayLocation(position){
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    var div = document.getElementById("location");
+    div.innerHTML = "You are at Latitude: "+latitude+", Longitude: "+longitude;
+}
+
+function display(error)
+  {
+　var div = document.getElementById("Location")
+  switch(error.code)
+    {
+    case error.PERMISSION_DENIED:
+      div.innerHTML="User denied the request for Geolocation."
+      break;
+    case error.POSITION_UNAVAILABLE:
+      div.innerHTML="Location information is unavailable."
+      break;
+    case error.TIMEOUT:
+      div.innerHTML="The request to get user location timed out."
+      break;
+    case error.UNKNOWN_ERROR:
+      div.innerHTML="An unknown error occurred."
+      break;
+    }
+  }
+
+
+function computeDistance(startCoords, destCoords) {
+    var startLatRads = degreesToRadians(startCoords.latitude);
+    var startLongRads = degreesToRadians(startCoords.longitude);
+    var destLatRads = degreesToRadians(destCoords.latitude);
+    var destLongRads = degreesToRadians(destCoords.longitude);
+
+    var Radius = 6371; // radius of the Earth in km
+    var distance = Math.acos(Math.sin(startLatRads) * Math.sin(destLatRads) + 
+                    Math.cos(startLatRads) * Math.cos(destLatRads) *
+                    Math.cos(startLongRads - destLongRads)) * Radius;
+
+    return distance;
+}
+
+function degreesToRadians(degrees) {
+    radians = (degrees * Math.PI)/180;
+    return radians;
+}
+
+
+ </script>
+
+</body>
+</html>
